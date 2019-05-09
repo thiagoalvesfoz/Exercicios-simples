@@ -13,9 +13,9 @@ Para chegar ao resultado do número binário deve se fazer a divisão do número
 verificar se é par ou impar utilizando como referência o resto da divisão. Esse processo será 
 repetido e armazenado em um vetor até que o resultado da ultima divisão chegue no valor 1 ou 0.
 
-Quando não der mais para dividir, é só imprimir o vetor de trás para frente e voilà.
+Quando não der mais para dividir, imprimimos o vetor ao contrário e voilà.
 
-Está é a primeira versão do código, em breve algos updates que faz o conversão de binário para decimal.
+Está é a primeira versão do código, em breve alguns updates que faz a conversão de binário para decimal.
 */
 
 #include <stdio.h>
