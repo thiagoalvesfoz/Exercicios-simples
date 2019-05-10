@@ -19,30 +19,49 @@ Em breve alguns updates que faz a conversão de binário para decimal.
 #include <string.h>
 #include <math.h>
 
-void binario();
+int convert_to_binario();
+int convert_to_decimal();
 void reverse();
+void entrada();
+void imprima();
 
-#define BITLIMIT 127
+
+char aux[127] = {'0'}; // irá armazenar o número em string
+int n = 0; //input stdin
+int bits = 0; //contagem de bits.
 
 int main() {
 
-	printf("\nDigite um numero: ");
+	int opcao;
+	printf("\n=== Escolha com Sabedoria ===\n");
+	printf("[1]Converter decimal para binario\n");
+	printf("[2]Converter binario para decimal\n");
+	printf("[?]Sair\n");
+	printf("\nDigite: ");
+	scanf("%d", &opcao);
 
-	//input stdin
-	int n;
-	scanf("%d", &n);
+	if (opcao == 1) {	
+		entrada(opcao);
+		convert_to_binario(n);
+		imprima(opcao);
+	} else if (opcao == 2){
+		//resolução numero decimal para binario
+		entrada(opcao);
+		n = convert_to_decimal();
+		imprima(opcao);
+	}
 
-	binario(n);
+	else
+		printf("\nSaindo do aplicativo...");
 
 	return 0;
 }
 
-void binario(int dec) { 
+int convert_to_binario(int dec) { 
 
-	char aux[127]; //irá armazenar o número binário
-	int bits; //novo recurso - contagem de bits.
+	const int BITLIMIT = 127;  //limite de bits estabelecidos.
 
-	for (int i = 0; i <= BITLIMIT; i++){ //limite de bits estabelecidos.
+	for (int i = 0; i <= BITLIMIT; i++){
 		
 		bits = i + 1; //contador de bits.
 
@@ -65,34 +84,72 @@ void binario(int dec) {
 		  	else 
 				aux[i] = '0'; 
 		}
-
 		dec /= 2;  //divide novamente por 2 antes de ir para o próximo loop.
 	}
-	
-	// O valor binario está pronto, porém está ao contrario,
-	// chamamos a função reverse para corrigir esse problema
-	reverse(aux);
-	
 
-	//Informação adicional, quantos bits é necessário para armazenar um número decimal?
-	printf("\nTamanho: %d bit", bits);	
-
-	if(bits > 1)
-		printf("s\n");	// Mero capricho
+	reverse(); //reordena o numero binario
 }
 
-void reverse(char string[127]) {
+int convert_to_decimal() {
 
-	char reverse[127] = {'0'}; //espaço para guardar binario + limpando sujeira.
-	int p = 0; //indica a posição em que se encontra o numero binario
-	
-	for (int i = strlen(string); i >= 0; i--) {
-		if(string[i] == '0' || string[i] == '1'){ // validação de dados
-			reverse[p] = string[i]; //faz a troca;
-			p++;
-		} 
+	//inverte a string antes de realizar a realizar a conta.
+	reverse();
+	int decimal = 0;
+
+	int posicao = strlen(aux) - 1; //Essencial para a precisão do resultado.
+
+	for(int i = posicao; i >= 0; i--) {
+		if (aux[i] != '0'){
+			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", i, reverse[i], i);
+			int resultado = pow(2, i);
+			decimal += resultado;
+			//DEBUG printf("\nO resultado e': %d", resultado);
+		}
 	}
 
-	printf("\nValor em binario: %s", reverse);
+	bits = posicao + 1;
+	return decimal;
+}
 
+void reverse() { //responsável por reordenar as string
+
+	char reverse[127] = {'0'};
+	int p = 0; //posiçao do n binário
+	
+	for (int i = strlen(aux); i >= 0; i--) {
+		if(aux[i] == '0' || aux[i] == '1'){//validação de dados
+			reverse[p] = aux[i];
+			p++;
+		}
+	}
+
+	strcpy(aux, reverse);
+}
+
+void entrada(int opcao){
+	
+	//input stdin
+	printf("\nDigite um numero: ");
+	scanf("%d", &n);
+
+	if (opcao == 2);
+		sprintf(aux, "%d", n);
+
+	//DEBUG printf("\ninteiro: %d \n string: %s \n", n, aux);
+
+	//Em breve - validação de dados
+	
+}
+
+void imprima(int opcao){
+
+	if (opcao == 1) {
+		//resultado convert decimal em binario
+		printf("\nValor em binario: %s", aux);
+	} else
+		printf("\nValor em decimal: %d", n);
+
+	printf("\nTamanho: %d bit", bits);
+	if(bits > 1)
+		printf("s\n");	// Mero capricho
 }
