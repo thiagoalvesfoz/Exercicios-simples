@@ -7,15 +7,12 @@ Conversor de numero decimal para binário utilizando a lógica do par ou impar.
 Como todos provavelmente devem saber, todo número par é divido por 2, ou seja, caso o
 resultado da divisão não tenha restos então o par é verdadeiro "1" caso contrário é falso "0".
 
-*** !importante: Para a aplicação desse exercício, os seus valores serão negados(invertidos). ***
+Para chegar ao resultado do número binário deve se fazer a divisão do número fornecido pelo 
+usuário e verificar se o resto da divisão irá retornar verdadeiro(1) ou falso(0). 
+Esse processo será repetido e armazenado em um vetor até que o resultado da ultima divisão 
+chegue no valor 1 ou 0 e não dê mais para dividir. Então imprimimos na tela o resultado e voilà.
 
-Para chegar ao resultado do número binário deve se fazer a divisão do número fornecido pelo stdin e
-verificar se o resto da divisão é verdadeiro ou não. Esse processo será repetido e armazenado em um 
-vetor até que o resultado da ultima divisão chegue no valor 1 ou 0.
-
-Quando não der mais para dividir, imprimimos o vetor ao contrário e voilà.
-
-Está é a primeira versão do código, em breve alguns updates que faz a conversão de binário para decimal.
+Em breve alguns updates que faz a conversão de binário para decimal.
 */
 
 #include <stdio.h>
@@ -25,8 +22,11 @@ Está é a primeira versão do código, em breve alguns updates que faz a conver
 void binario();
 void reverse();
 
+#define BITLIMIT 127
+
 int main() {
 
+	printf("\nDigite um numero: ");
 
 	//input stdin
 	int n;
@@ -37,62 +37,62 @@ int main() {
 	return 0;
 }
 
-void binario(int dec) { //metodo impar ou par + resto da divisão;
+void binario(int dec) { 
 
 	char aux[127]; //irá armazenar o número binário
-	int bits;
+	int bits; //novo recurso - contagem de bits.
 
-	for (int i = 0; i <= 127; i++){ //limite estabelecido.
+	for (int i = 0; i <= BITLIMIT; i++){ //limite de bits estabelecidos.
 		
-		bits = i + 1; //novo recurso - contagem de bits.
+		bits = i + 1; //contador de bits.
 
-		if (dec == 1){ //se o número é igual a 1, então...
-			aux[i] = '1'; //na posição "i" irá conter o caractere '1';
-			break; //quebra o loop evitando processamento desnecessário.
-		}
-		else if(dec == 0){ //mas se o número é igual a 0, então...
-			aux[i] = '0'; //na posição "i" irá conter o caractere '0';
+		//antes de realizar a divisão verifica se o valor é menor que 2;
+		if (dec == 1){ 
+			aux[i] = '1'; 
+			break; 
+		} 
+		else if(dec == 0){
+			aux[i] = '0'; 
 			break;
 		}
-		else { //Caso contrário, irá fazer o calculo do resto da divisão.
+		//caso contrário, vai calcular o resto da divisão. Se houver resto
+		//será armazenamo na posição 'i' do vetor manipulado, o valor binario '1', se
+		//não houver, então será armazenado o valor binário '0'.
+		else { 
 			int resto = dec % 2; 			
-			if (resto > 0) //se terminar em impar
-				aux[i] = '1'; //na posição "i" irá conter o caractere '1';		  
-		  	else //se terminar em par;
-				aux[i] = '0'; //na posição "i" irá conter o caractere '0';
+			if (resto > 0) 
+				aux[i] = '1'; 	  
+		  	else 
+				aux[i] = '0'; 
 		}
-		//para continuar a descobrir o próximo valor, deve-se dividir por 2 até que chegue ao valor de 1;
-		dec /= 2; 
+
+		dec /= 2;  //divide novamente por 2 antes de ir para o próximo loop.
 	}
 	
-	//código pronto, agora é necessário que imprima ao contrário na tela o resultado;
-	//para descobrir o tamanho total do vetor preenchido utilizamos a função strlen;
-	
-	// printf("\n");
-	// for (int j = strlen(aux); j >= 0; j--) {
-	// 	printf("%c", aux[j]);				
-	// } 
-
+	// O valor binario está pronto, porém está ao contrario,
+	// chamamos a função reverse para corrigir esse problema
 	reverse(aux);
 	
-	printf("\nTamanho: %d bit", bits);
-	
+
+	//Informação adicional, quantos bits é necessário para armazenar um número decimal?
+	printf("\nTamanho: %d bit", bits);	
+
 	if(bits > 1)
-		printf("s\n");	
+		printf("s\n");	// Mero capricho
 }
 
 void reverse(char string[127]) {
 
-	char reverse[127] = {'0'}; //variável auxiliar
-	int p = 0; //posiçao do n binário
+	char reverse[127] = {'0'}; //espaço para guardar binario + limpando sujeira.
+	int p = 0; //indica a posição em que se encontra o numero binario
 	
 	for (int i = strlen(string); i >= 0; i--) {
-		if(string[i] == '0' || string[i] == '1'){//validação de dados
-			reverse[p] = string[i];
+		if(string[i] == '0' || string[i] == '1'){ // validação de dados
+			reverse[p] = string[i]; //faz a troca;
 			p++;
 		} 
 	}
 
-	printf("\n%s", reverse);
+	printf("\nValor em binario: %s", reverse);
 
 }
