@@ -12,7 +12,10 @@ usuário e verificar se o resto da divisão irá retornar verdadeiro(1) ou falso
 Esse processo será repetido e armazenado em um vetor até que o resultado da ultima divisão 
 chegue no valor 1 ou 0 e não dê mais para dividir. Então imprimimos na tela o resultado e voilà.
 
-Em breve alguns updates que faz a conversão de binário para decimal.
+MELHORIAS
+# Menu de opção
+# Converte o numero de decimal para binário.
+# converte o numero binário para decimal.
 */
 
 #include <stdio.h>
@@ -75,7 +78,7 @@ int convert_to_binario(int dec) {
 			break;
 		}
 		//caso contrário, vai calcular o resto da divisão. Se houver resto
-		//será armazenamo na posição 'i' do vetor manipulado, o valor binario '1', se
+		//será armazenamo na posição 'i' do vetor manipulado o valor binario '1', se
 		//não houver, então será armazenado o valor binário '0'.
 		else { 
 			int resto = dec % 2; 			
@@ -91,33 +94,31 @@ int convert_to_binario(int dec) {
 }
 
 int convert_to_decimal() {
-
-	//inverte a string antes de realizar a realizar a conta.
-	reverse();
-	int decimal = 0;
-
+	
+	reverse(); //inverte a string antes de realizar a operaçao.
 	int posicao = strlen(aux) - 1; //Essencial para a precisão do resultado.
+	int decimal = 0;
 
 	for(int i = posicao; i >= 0; i--) {
 		if (aux[i] != '0'){
-			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", i, reverse[i], i);
+			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", i, aux[i], i);
 			int resultado = pow(2, i);
 			decimal += resultado;
 			//DEBUG printf("\nO resultado e': %d", resultado);
 		}
 	}
 
-	bits = posicao + 1;
-	return decimal;
+	bits = posicao + 1; //calcula o numero de bits ocupado.
+	return decimal; //retorna o resultado da operacao
 }
 
-void reverse() { //responsável por reordenar as string
+void reverse() { //responsável por reordenar a string
 
 	char reverse[127] = {'0'};
 	int p = 0; //posiçao do n binário
 	
 	for (int i = strlen(aux); i >= 0; i--) {
-		if(aux[i] == '0' || aux[i] == '1'){//validação de dados
+		if(aux[i] == '0' || aux[i] == '1'){ //validação de dados
 			reverse[p] = aux[i];
 			p++;
 		}
@@ -141,10 +142,9 @@ void entrada(int opcao){
 	
 }
 
-void imprima(int opcao){
-
-	if (opcao == 1) {
-		//resultado convert decimal em binario
+void imprima(int opcao){ //mostra o resultado de acordo com a opção escolhida.
+	
+	if (opcao == 1) { 
 		printf("\nValor em binario: %s", aux);
 	} else
 		printf("\nValor em decimal: %d", n);
