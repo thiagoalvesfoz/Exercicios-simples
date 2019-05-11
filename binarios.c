@@ -22,16 +22,16 @@ MELHORIAS
 #include <string.h>
 #include <math.h>
 
-int convert_to_binario();
+void convert_to_binario();
 int convert_to_decimal();
-void reverse();
-void entrada();
+void inverter_string();
+void digite_numero();
 void imprima();
 
 
-char aux[127] = {'0'}; // irá armazenar o número em string
-int n = 0; //input stdin
-int bits = 0; //contagem de bits.
+char string[127] = {'0'}; // irá armazenar o número em string
+int numero = 0; 
+int contador_bits = 0;
 
 int main() {
 
@@ -44,13 +44,13 @@ int main() {
 	scanf("%d", &opcao);
 
 	if (opcao == 1) {	
-		entrada(opcao);
-		convert_to_binario(n);
+		digite_numero(opcao);
+		convert_to_binario(numero);
 		imprima(opcao);
 	} else if (opcao == 2){
 		//resolução numero decimal para binario
-		entrada(opcao);
-		n = convert_to_decimal();
+		digite_numero(opcao);
+		numero = convert_to_decimal();
 		imprima(opcao);
 	}
 
@@ -60,96 +60,97 @@ int main() {
 	return 0;
 }
 
-int convert_to_binario(int dec) { 
+void convert_to_binario(int numeroDecimal) { 
 
-	const int BITLIMIT = 127;  //limite de bits estabelecidos.
+	const int BITLIMIT = 31;  //limitador - configurado para processar até 31^16
 
-	for (int i = 0; i <= BITLIMIT; i++){
-		
-		bits = i + 1; //contador de bits.
-
-		//antes de realizar a divisão verifica se o valor é menor que 2;
-		if (dec == 1){ 
-			aux[i] = '1'; 
+	for (int posicao = 0; posicao <= BITLIMIT; posicao++)
+	{		
+		if (numeroDecimal == 1)	{ 
+			string[posicao] = '1'; 
 			break; 
 		} 
-		else if(dec == 0){
-			aux[i] = '0'; 
+		else if(numeroDecimal == 0)	{
+			string[posicao] = '0'; 
 			break;
 		}
-		//caso contrário, vai calcular o resto da divisão. Se houver resto
-		//será armazenamo na posição 'i' do vetor manipulado o valor binario '1', se
-		//não houver, então será armazenado o valor binário '0'.
-		else { 
-			int resto = dec % 2; 			
-			if (resto > 0) 
-				aux[i] = '1'; 	  
+
+		else 
+		{ 
+			int restoDivisao = numeroDecimal % 2;
+
+			if (restoDivisao > 0) 
+				string[posicao] = '1'; 	  
 		  	else 
-				aux[i] = '0'; 
+				string[posicao] = '0'; 
 		}
-		dec /= 2;  //divide novamente por 2 antes de ir para o próximo loop.
+
+		contador_bits = posicao + 1;
+		numeroDecimal /= 2; 
 	}
 
-	reverse(); //reordena o numero binario
+	inverter_string();
 }
 
 int convert_to_decimal() {
 	
-	reverse(); //inverte a string antes de realizar a operaçao.
-	int posicao = strlen(aux) - 1; //Essencial para a precisão do resultado.
-	int decimal = 0;
+	inverter_string();
+	int posicao = strlen(string) - 1; //Essencial para a precisão do resultado.
 
-	for(int i = posicao; i >= 0; i--) {
-		if (aux[i] != '0'){
-			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", i, aux[i], i);
-			int resultado = pow(2, i);
-			decimal += resultado;
-			//DEBUG printf("\nO resultado e': %d", resultado);
+	int Numero_decimal = 0; 
+
+	for(int N_do_expoente = posicao; N_do_expoente >= 0; N_do_expoente--) {
+
+		if (string[N_do_expoente] != '0'){
+			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", N_do_expoente, aux[string], N_do_expoente);
+			int valor_do_bit = pow(2, N_do_expoente);
+			Numero_decimal += valor_do_bit;
+			//DEBUG printf("\nO resultado e': %d", Numero_decimal);
 		}
 	}
 
-	bits = posicao + 1; //calcula o numero de bits ocupado.
-	return decimal; //retorna o resultado da operacao
+	contador_bits = strlen(string);
+	return Numero_decimal; //retorna o resultado da operacao
 }
 
-void reverse() { //responsável por reordenar a string
+void inverter_string() {
 
 	char reverse[127] = {'0'};
-	int p = 0; //posiçao do n binário
+	int novaPosicao = 0;
 	
-	for (int i = strlen(aux); i >= 0; i--) {
-		if(aux[i] == '0' || aux[i] == '1'){ //validação de dados
-			reverse[p] = aux[i];
-			p++;
+	for (int antigaPosicao = strlen(string); antigaPosicao >= 0; antigaPosicao--) 
+	{
+		if(string[antigaPosicao] == '0' || string[antigaPosicao] == '1')
+		{ 
+			reverse[novaPosicao] = string[antigaPosicao];
+			novaPosicao++;
 		}
 	}
 
-	strcpy(aux, reverse);
+	strcpy(string, reverse);
 }
 
-void entrada(int opcao){
+void digite_numero(int opcao){
 	
-	//input stdin
 	printf("\nDigite um numero: ");
-	scanf("%d", &n);
+	scanf("%d", &numero);
 
-	if (opcao == 2);
-		sprintf(aux, "%d", n);
+	if (opcao == 2)
+		sprintf(string, "%d", numero);
 
-	//DEBUG printf("\ninteiro: %d \n string: %s \n", n, aux);
-
-	//Em breve - validação de dados
+	//DEBUG printf("\nInteiro: %d \nString: %s \n", numero, string);
+	//Em breve - validação de dados e anti buffer
 	
 }
 
 void imprima(int opcao){ //mostra o resultado de acordo com a opção escolhida.
 	
 	if (opcao == 1) { 
-		printf("\nValor em binario: %s", aux);
+		printf("\nValor em binario: %s", string);
 	} else
-		printf("\nValor em decimal: %d", n);
+		printf("\nValor em decimal: %d", numero);
 
-	printf("\nTamanho: %d bit", bits);
-	if(bits > 1)
+	printf("\nTamanho: %d bit", contador_bits);
+	if(contador_bits > 1)
 		printf("s\n");	// Mero capricho
 }
