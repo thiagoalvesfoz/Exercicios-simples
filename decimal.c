@@ -1,63 +1,97 @@
+/* 
+Thiago Alves | Software Engineering Course |  Campus Uniamérica - 2019/2023.
+
+Convert from Decimal to Binary.
+
+IMPROVEMENTS
+# Allows new operation
+# Bits Counter
+# Clean Code - Easy maintenance.
+# Some comments removed (self-explanatory codes).
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
 
-void inverter();
+void invert_string();
 int convert_to_decimal();
 
-char aux[127] = {'0'};
-int bits = 0;
+char string[127];
+int bitCounter = 0;
+int number;
 
 int main () {
 
-	//input stdin
-	int n;
-	scanf("%d", &n);
+	do	{
+
+		//reset value
+		sprintf(string, "0");
+		number = 0;
+		//DEBUG printf("\nVector: %s\n", string);
+
+		//input stdin	
+		printf("\nEnter a binary number: ");
+		scanf("%d", &number);
+		fflush(stdin);
+		sprintf(string, "%d", number);
 
 
-	sprintf(aux, "%d", n);	 	//transforma em string
-	inverter(); 				//inverte a string para realizar a conta.	
-	n = convert_to_decimal();	//Realiza a conta e retorna o resultado da operação.
+		//process
+		invert_string(); 			
+		number = convert_to_decimal();
 
-	printf("\nValor em decimal: %d", n);
-	printf("\nTamanho: %d bit", bits);
-	if(bits > 1)
-		printf("s\n");	// Mero capricho
+		//show result
+		printf("\nDecimal value: %d", number);
+		printf("\nSize: %d bit", bitCounter);
+
+		if(bitCounter > 1)
+			printf("s\n");	// Mere caprice
+
+		printf("\nTry Again?\n[1] Yes [?] No\n\n");
+		printf("$ ");
+		scanf("%d", &number);
+		fflush(stdin);
+
+	} while(number == 1);
 
 	return 0;
 	
 }
 
-void inverter() {
+void invert_string() {
 
-	char reverse[127] = {'0'};
-	int p = 0; //posiçao do n binário
+	char invert[127] = {'0'}; //auxiliary vector
+	int newPosition = 0;
 	
-	for (int i = strlen(aux); i >= 0; i--) {
-		if(aux[i] == '0' || aux[i] == '1'){//validação de dados
-			reverse[p] = aux[i];
-			p++;
+	for (int oldPosition = strlen(string); oldPosition >= 0; oldPosition--) 
+	{
+		if(string[oldPosition] == '0' || string[oldPosition] == '1')
+		{
+			invert[newPosition] = string[oldPosition];
+			newPosition++;
 		}
 	}
 
-	strcpy(aux, reverse);
+	strcpy(string, invert); 
 }
 
-///função que transformar em decimal
 int convert_to_decimal() {
 
-	int decimal = 0;
-	int posicao = strlen(aux) - 1; //Essencial para a precisão do resultado.
+	int decimalNumber = 0;
+	int position = strlen(string) - 1; //Essencial para a precisão do resultado.
 
-	for(int i = posicao; i >= 0; i--) {		
-		if (aux[i] != '0'){
+	for(int numberExponent = position; numberExponent >= 0; numberExponent--) 
+	{		
+		if (string[numberExponent] != '0')
+		{
 			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", i, reverse[i], i);
-			int resultado = pow(2, i);
+			int bitValue = pow(2, numberExponent);
 			//DEBUG printf("\nO resultado e': %d", resultado);
-			decimal += resultado;
+			decimalNumber += bitValue;
 		}
 	}
-	bits = posicao + 1;
-	return decimal;
+	bitCounter = strlen(string);
+	return decimalNumber;
 }
