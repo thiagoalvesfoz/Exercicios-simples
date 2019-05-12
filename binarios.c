@@ -1,7 +1,7 @@
 /* 
 Thiago Alves | Curso de Engenharia de Software | Faculdade Uniamérica - 2019/2023.
 
-Conversor de Número decimal para binário.
+Conversor de Número decimal para binário
 
 MELHORIAS
 # Menu de opção
@@ -27,38 +27,12 @@ char string[127]; // irá armazenar o número em string
 int numero = 0; 
 int contador_bits = 0;
 
-int main() {
-
-	int opcao = 0;
-
-	do	{
-
-		opcao = menu_principal(opcao);
-
-		if (opcao == 1) {	
-			digite_numero(opcao);
-			convert_to_binario(numero);
-			imprima(opcao);
-		} else if (opcao == 2){
-			//resolução numero decimal para binario
-			digite_numero(opcao);
-			numero = convert_to_decimal(numero);
-			imprima(opcao);
-		}
-
-		else
-			printf("\nSaindo do aplicativo...");
-
-	} while(opcao == 1 || opcao == 2);
-
-	return 0;
-}
-
 int menu_principal(int opcao){
 
 	//reset value
 	sprintf(string, "0");
 	opcao = 0;
+	//DEBUG printf("\nNa string tem: %s\n", string);
 
 	printf("\n=== Escolha o tipo de conversao ===\n");
 	printf("[1]Decimal para binario\n");
@@ -112,7 +86,7 @@ void inverter_string() {
 		}
 	}
 
-	strcpy(string, reverse);//Apenas inverte ao contrário o numero binário.
+	strcpy(string, reverse);
 }
 
 void convert_to_binario(int numeroDecimal) { 
@@ -165,4 +139,31 @@ int convert_to_decimal() {
 
 	contador_bits = strlen(string);
 	return Numero_decimal; //retorna o resultado da operacao
+}
+
+int main() {
+
+	int opcao = 0;
+
+	do	{
+
+		opcao = menu_principal(opcao);
+
+		if (opcao == 1) {	
+			digite_numero(opcao);
+			convert_to_binario(numero);
+			imprima(opcao);
+		} else if (opcao == 2){
+			//resolução numero decimal para binario
+			digite_numero(opcao);
+			numero = convert_to_decimal(numero);
+			imprima(opcao);
+		}
+
+		else
+			printf("\nSaindo do aplicativo...");
+
+	} while(opcao == 1 || opcao == 2);
+
+	return 0;
 }

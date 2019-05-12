@@ -15,49 +15,25 @@ IMPROVEMENTS
 #include <stdlib.h>
 #include <math.h>
 
+void input();
 void invert_string();
-int convert_to_decimal();
+void convert_to_decimal();
 
 char string[127];
 int bitCounter = 0;
 int number;
 
-int main () {
+void input(){
+	//reset value
+	sprintf(string, "0");
+	number = 0;
+	//DEBUG printf("\nVector: %s\n", string);
 
-	do	{
-
-		//reset value
-		sprintf(string, "0");
-		number = 0;
-		//DEBUG printf("\nVector: %s\n", string);
-
-		//input stdin	
-		printf("\nEnter a binary number: ");
-		scanf("%d", &number);
-		fflush(stdin);
-		sprintf(string, "%d", number);
-
-
-		//process
-		invert_string(); 			
-		number = convert_to_decimal();
-
-		//show result
-		printf("\nDecimal value: %d", number);
-		printf("\nSize: %d bit", bitCounter);
-
-		if(bitCounter > 1)
-			printf("s\n");	// Mere caprice
-
-		printf("\nTry Again?\n[1] Yes [?] No\n\n");
-		printf("$ ");
-		scanf("%d", &number);
-		fflush(stdin);
-
-	} while(number == 1);
-
-	return 0;
-	
+	//input stdin	
+	printf("\nEnter a binary number: ");
+	scanf("%d", &number);
+	fflush(stdin);
+	sprintf(string, "%d", number);
 }
 
 void invert_string() {
@@ -77,7 +53,7 @@ void invert_string() {
 	strcpy(string, invert); 
 }
 
-int convert_to_decimal() {
+void convert_to_decimal() {
 
 	int decimalNumber = 0;
 	int position = strlen(string) - 1; //Essencial para a precisão do resultado.
@@ -93,5 +69,33 @@ int convert_to_decimal() {
 		}
 	}
 	bitCounter = strlen(string);
-	return decimalNumber;
+	number = decimalNumber;
+
+	//show result
+		printf("\nDecimal value: %d", number);
+		printf("\nSize: %d bit", bitCounter);
+
+		if(bitCounter > 1)
+			printf("s\n");	// Mere caprice
+}
+
+int main () {
+
+	do	{
+		
+		input();
+		//process
+		invert_string(); 			
+		convert_to_decimal();
+
+		printf("\nTry Again?\n[1] Yes [?] No\n\n");
+		printf("$ ");
+		
+		scanf("%d", &number);
+		fflush(stdin);
+
+	} while(number == 1);
+
+	return 0;
+	
 }
