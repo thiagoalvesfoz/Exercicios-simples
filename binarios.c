@@ -16,21 +16,12 @@ MELHORIAS
 #include <string.h>
 #include <math.h>
 
-int menu_principal();
-void digite_numero();
-void imprima();
-void inverter_string();
-void convert_to_binario();
-int convert_to_decimal();
+#include "conversor.h"
 
-char string[127]; // irá armazenar o número em string
-int numero = 0; 
-int contador_bits = 0;
+/////////////// user ///////////////
 
 int menu_principal(int opcao){
 
-	//reset value
-	sprintf(string, "0");
 	opcao = 0;
 	//DEBUG printf("\nNa string tem: %s\n", string);
 
@@ -46,23 +37,41 @@ int menu_principal(int opcao){
 	return opcao;//Apenas mostra o menu principal
 }
 
-void digite_numero(int opcao){
+int validar_binario(int numero, int opcao){
 	
+	sprintf(string, "%d", numero);
+	//DEBUG printf("\nInteiro: %d \nString: %s \n", numero, string);
+	for(int check = 0; check < strlen(string); check++)	{
+		if(string[check] != '1' && string[check] != '0'){
+			printf("Numero binario invalido...\n");
+			fflush(stdin);
+			return digite_numero(opcao);
+		}
+	}
+
+	inverter_string();
+}
+
+int digite_numero(int opcao){	
+	//DEBUG printf("\n numero %d, opcao %d\n", numero, opcao);	
 	printf("\nDigite um numero: ");
 	scanf("%d", &numero);
 
-	if (opcao == 2) {
-		sprintf(string, "%d", numero);
-		inverter_string();
+	if(numero == INVALIDO) {
+		fflush(stdin);
+		printf("Numero invalido... :(\n");
+		return digite_numero(opcao);
 	}
 
-	//DEBUG printf("\nInteiro: %d \nString: %s \n", numero, string);
-	//Em breve - validação de dados e anti buffer
+	if (opcao == CONVERTER_BINARIO) {
+		validar_binario(numero, opcao);
+	}
+
 }
 
 void imprima(int opcao){ //mostra o resultado de acordo com a opção escolhida.
 	
-	if (opcao == 1) { 
+	if (opcao == CONVERTER_DECIMAL) { 
 		printf("\nValor em binario: %s", string);
 	} else
 		printf("\nValor em decimal: %d", numero);
@@ -70,7 +79,17 @@ void imprima(int opcao){ //mostra o resultado de acordo com a opção escolhida.
 	printf("\nTamanho: %d bit", contador_bits);
 	if(contador_bits > 1)
 		printf("s\n");	// Mero capricho
+
+	resetarValores();
 }
+
+void resetarValores(){
+	strcpy(string,"");
+	numero = 0;
+	//DEBUG printf("\n\nstring:%s\n", string);
+}
+
+/////////////// Process ///////////////
 
 void inverter_string() {
 
@@ -125,9 +144,9 @@ void convert_to_binario(int numeroDecimal) {
 int convert_to_decimal() {
 	
 	int posicao = strlen(string) - 1; //Essencial para a precisão do resultado.
-	int Numero_decimal = 0; 
+	int Numero_decimal = 0;
 
-	for(int Numero_expoente = posicao; Numero_expoente >= 0; Numero_expoente--) {
+	for(int Numero_expoente = 0; Numero_expoente <= posicao; Numero_expoente++) {
 
 		if (string[Numero_expoente] != '0'){
 			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", N_do_expoente, aux[string], N_do_expoente);
@@ -149,11 +168,11 @@ int main() {
 
 		opcao = menu_principal(opcao);
 
-		if (opcao == 1) {	
+		if (opcao == CONVERTER_DECIMAL) {	
 			digite_numero(opcao);
 			convert_to_binario(numero);
 			imprima(opcao);
-		} else if (opcao == 2){
+		} else if (opcao == CONVERTER_BINARIO){
 			//resolução numero decimal para binario
 			digite_numero(opcao);
 			numero = convert_to_decimal(numero);
@@ -163,7 +182,7 @@ int main() {
 		else
 			printf("\nSaindo do aplicativo...");
 
-	} while(opcao == 1 || opcao == 2);
+	} while(opcao == CONVERTER_DECIMAL || opcao == CONVERTER_BINARIO);
 
 	return 0;
 }
