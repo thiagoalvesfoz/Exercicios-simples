@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+ordenar_vetor.c
+Ler.c
+ordenar_vetor.c
+numeros.txt
