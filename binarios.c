@@ -34,7 +34,7 @@ int menu_principal(int opcao){
 	scanf("%d", &opcao);
 	fflush(stdin);
 
-	return opcao;//Apenas mostra o menu principal
+	return opcao;
 }
 
 int validar_binario(int numero, int opcao){
@@ -149,7 +149,7 @@ int convert_to_decimal() {
 	for(int Numero_expoente = 0; Numero_expoente <= posicao; Numero_expoente++) {
 
 		if (string[Numero_expoente] != '0'){
-			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", N_do_expoente, aux[string], N_do_expoente);
+			//DEBUG printf("\nNa casa %d o resultado sera %c * 2^%d", N_do_expoente, string[N_do_expoente], N_do_expoente);
 			int valor_do_bit = pow(2, Numero_expoente);
 			Numero_decimal += valor_do_bit;
 			//DEBUG printf("\nO resultado e': %d", Numero_decimal);
