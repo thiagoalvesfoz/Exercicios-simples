@@ -8,7 +8,7 @@ void JacktheRiper(int linha){
 	int p = 0;
 	for(int i=0; i < strlen(lista[linha]); i++){
 
-		if(lista[0][i] != ';')
+		if(lista[linha][i] != ';')
 		{
 			binario1[p] = lista[linha][i];
 			p++;
