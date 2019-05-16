@@ -75,7 +75,7 @@ void readFile(){
 
 	for(int i = 0; i < 4; i++){
 		fscanf(arquivo, "%s", lista[i]);	
-		// letsgobyparts(i); //calcula e mostra o resultado enquanto o arquivo ainda é lido.
+		// JacktheRiper(i); //calcula e mostra o resultado enquanto o arquivo ainda é lido.
 	}
 	fclose(arquivo);
 }
