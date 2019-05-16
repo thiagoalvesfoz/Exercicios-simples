@@ -3,7 +3,7 @@
 int main () {
 
 	char array[20] = { 'A', 'T', 'M', 'H', 'V', 'B', 'C', 'I', 'E', 'R', 'D', 'N', 'L' };
-	char aux = H	//  0    1    2    H    4    5    6    7    8    9    10  11    12
+	char aux;    	//  0    1    2    H    4    5    6    7    8    9    10  11    12
 
 	for(int i = 0; i <= 12; i++) 
 		printf("'%c',  ", array[i]);
@@ -20,7 +20,7 @@ int main () {
 				array[proxima] = aux;
 			}
 		}
-		printf("'%c',  ", array[i]);
+		printf("'%c',  ", array[anterior]);
 	}
 	printf("\nArray Ordenado\n");
 	return 0;
