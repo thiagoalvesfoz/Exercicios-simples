@@ -74,9 +74,8 @@ void readFile(){
 	}
 
 	for(int i = 0; i < 4; i++){
-		fscanf(arquivo, "%s", lista[i]);
-		// split(i); calcula enquanto le o arquivo	
-		// printf("%s\n", lista[i]); //DEBUG 
+		fscanf(arquivo, "%s", lista[i]);	
+		// letsgobyparts(i); //calcula e mostra o resultado enquanto o arquivo ainda é lido.
 	}
 	fclose(arquivo);
 }
