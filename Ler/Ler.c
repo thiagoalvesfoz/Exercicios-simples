@@ -82,8 +82,9 @@ void readFile(){
 
 void show(){
 	invert_string();
-	printf("Binary Value: %s ", binario1);
-	printf(" -->  Decimal value: %d \n", number);
+	printf("Binary Value: %s  -->  Decimal value: ", binario1);	
+	if(number < 10)	printf("0");	
+	printf("%d\n", number);
 }
 
 
